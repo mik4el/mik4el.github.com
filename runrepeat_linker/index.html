@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <script>
+            function gotoRunRepeat() {
+                var shoe_name = document.getElementById("shoe_name").value;
+                var gender_letter = document.getElementById("gender").value;
+                var shoe_us_size = document.getElementById("shoe_us_size").value;
+                alert("Linking to RunRepeat with values: " + shoe_name + " " + gender_letter + " " + shoe_us_size);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Enter shoe details to go to RunRepeat</h1>
+        <form>
+            <label for="shoe_name">Shoe name:</label>
+            <input name="shoe_name" id="shoe_name" type="text">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender">
+                <option value="m">Men</option>
+                <option value="w">Women</option>
+            </select>
+            <label for="shoe_us_size">US shoe size:</label>
+            <input name="shoe_us_size"  id="shoe_us_size" type="text">
+            <button type="button" onclick="gotoRunRepeat()">Go to RunRepat</button>
+        </form>
+    </body>
+</html>
