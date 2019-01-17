@@ -19,21 +19,45 @@
                 //alert("Linking to RunRepeat with values: " + shoe_name + " " + gender + " " + shoe_us_size + "\n to url: " + url);
                 window.open(url, '_blank');
             }
+
+            function resultsOnRunRepeat() {
+                var shoe_name = document.getElementById("shoe_name").value;
+                var gender = document.getElementById("gender").value;
+                var shoe_us_size = document.getElementById("shoe_us_size").value;
+                var url = runRepeatUrlFor(shoe_name, gender, shoe_us_size);
+                document.getElementById("results").innerHTML = "Checking...";
+                fetch("https://cors-anywhere.herokuapp.com/"+url)
+                .then((res) => {
+                    return res.text();
+                })
+                .then((data) => {
+                    var parser = new DOMParser();
+                    var htmlDoc = parser.parseFromString(data, "text/html");
+                    num_results = htmlDoc.getElementById("rankings-list").getElementsByTagName("LI").length;
+                    if (num_results > 0) {
+                        document.getElementById("results").innerHTML = "Found " + num_results + " on RunRepeat.";
+                    } else {
+                        document.getElementById("results").innerHTML = "No matching shoes on RunRepeat.";
+                    }
+                });
+            }
         </script>
     </head>
     <body>
         <h1>Enter shoe details to go to RunRepeat</h1>
         <form>
             <label for="shoe_name">Shoe name:</label>
-            <input name="shoe_name" id="shoe_name" type="text" value="Asics GT 2000 7" onfocus="value=''">
+            <input name="shoe_name" id="shoe_name" type="text" value="Asics GT 2000 7" onfocus="value=''" onblur="resultsOnRunRepeat()">
             <label for="gender">Gender:</label>
-            <select name="gender" id="gender">
+            <select name="gender" id="gender" onblur="resultsOnRunRepeat()">
                 <option value="men">Men</option>
                 <option value="women">Women</option>
             </select>
             <label for="shoe_us_size">US shoe size:</label>
-            <input name="shoe_us_size"  id="shoe_us_size" type="text" value="7.5" onfocus="value=''">
+            <input name="shoe_us_size"  id="shoe_us_size" type="text" value="7.5" onfocus="value=''" onblur="resultsOnRunRepeat()">
             <button type="button" onclick="gotoRunRepeat()">Go to RunRepat</button>
         </form>
+        <p id="results">
+        </p>
     </body>
 </html>
